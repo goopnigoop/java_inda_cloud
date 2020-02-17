@@ -2,7 +2,7 @@ version: '2'
 
 services:
   eureka:
-    image: springcloud/eureka
+    image: goopnigoop/eureka:latest
     ports:
       - "8761:8761"
   mongo:
@@ -10,22 +10,20 @@ services:
     ports:
       - "27017:27017"
   pc:
-      build: pc/
+      image: goopnigoop/pc:latest
       ports:
         - '8081:8080'
-        - '5010:5005'
       depends_on:
         - eureka
         - mongo
       environment:
         SPRING_DATA_MONGODB_HOST: mongo
-        EUREKA_INSTANCE_PREFER_IP_ADDRESS: 'true'
+        UREKA_INSTANCE_PREFER_IP_ADDRESS: 'true'
         EUREKA_CLIENT_SERVICEURL_DEFAULTZONE: 'http://eureka:8761/eureka/'
   po:
-      build: po/
+      image: goopnigoop/po:latest
       ports:
         - '8082:8080'
-        - '5020:5005'
       links:
         - pc
       depends_on:
