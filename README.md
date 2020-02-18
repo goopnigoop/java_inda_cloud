@@ -51,6 +51,30 @@ spring.application.name=pc
 mvn clean package
 ```
 
+### start
+
+```bash
+make -f Makefile start
+```
+
+### stop
+
+```bash
+make -f Makefile stop
+```
+
+### restart
+
+```bash
+make -f Makefile restart
+```
+
+### clean
+
+```bash
+make -f Makefile clean
+```
+
 ### Prepare environment
 
 Service Discovery:

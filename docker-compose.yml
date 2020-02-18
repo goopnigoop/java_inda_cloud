@@ -5,10 +5,30 @@ services:
     image: goopnigoop/eureka:latest
     ports:
       - "8761:8761"
+  zuul:
+    image: goopnigoop/zuul:latest
+    ports:
+      - "8766:8766"
+    depends_on:
+      - eureka
+    environment:
+      EUREKA_CLIENT_SERVICEURL_DEFAULTZONE: 'http://eureka:8761/eureka/'
+      UREKA_INSTANCE_PREFER_IP_ADDRESS: 'true'
+  config:
+    image: goopnigoop/config:latest
+    ports:
+      - "8888:8888"
+    depends_on:
+      - eureka
+    environment:
+      EUREKA_CLIENT_SERVICEURL_DEFAULTZONE: 'http://eureka:8761/eureka/'
+      UREKA_INSTANCE_PREFER_IP_ADDRESS: 'true'
   mongo:
     image: mongo
     ports:
       - "27017:27017"
+    depends_on:
+      - config
   pc:
       image: goopnigoop/pc:latest
       ports:
@@ -16,6 +36,7 @@ services:
       depends_on:
         - eureka
         - mongo
+        - config
       environment:
         SPRING_DATA_MONGODB_HOST: mongo
         UREKA_INSTANCE_PREFER_IP_ADDRESS: 'true'
@@ -30,6 +51,7 @@ services:
         - eureka
         - mongo
         - pc
+        - config
       environment:
         SPRING_DATA_MONGODB_HOST: mongo
         EUREKA_INSTANCE_PREFER_IP_ADDRESS: 'true'
